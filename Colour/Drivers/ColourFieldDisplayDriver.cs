@@ -1,12 +1,11 @@
-﻿using Etch.OrchardCore.Fields.Code.ViewModels;
+using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.Code.ViewModels;
 using Etch.OrchardCore.Fields.Colour.Fields;
 using Etch.OrchardCore.Fields.Colour.Settings;
 using Etch.OrchardCore.Fields.Colour.ViewModels;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
-using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Colour.Drivers
 {
@@ -29,11 +28,11 @@ namespace Etch.OrchardCore.Fields.Colour.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ColourField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ColourField field, UpdateFieldEditorContext context)
         {
             var model = new EditCodeFieldViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix, m => m.Value))
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.Value))
             {
                 field.Value = model.Value;
             }

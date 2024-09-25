@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Localization;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Fields;
+using Etch.OrchardCore.Fields.ResponsiveMedia.Utils;
+using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Etch.OrchardCore.Fields.ResponsiveMedia.Utils;
 using OrchardCore.Media;
 
 namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
@@ -29,10 +30,19 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
 
         #endregion
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition partFieldDefinition, BuildEditorContext context)
         {
-            return Initialize<ResponsiveMediaFieldSettings>("ResponsiveMediaFieldSettings_Edit", viewModel => model.PopulateSettings(viewModel))
-                .Location("Content");
+            return Initialize<ResponsiveMediaFieldSettings>("NumericFieldSettings_Edit", model =>
+            {
+                var settings = partFieldDefinition.GetSettings<ResponsiveMediaFieldSettings>();
+                model.AllowMediaText = settings.AllowMediaText;
+                model.Breakpoints = settings.Breakpoints;
+                model.FallbackData = settings.FallbackData;
+                model.Hint = settings.Hint;
+                model.LazyLoad = settings.LazyLoad;
+                model.Multiple = settings.Multiple;
+                model.Required = settings.Required;
+            }).Location("Content");
         }
 
         public override async Task<IDisplayResult> UpdateAsync(ContentPartFieldDefinition model, UpdatePartFieldEditorContext context)
@@ -48,7 +58,7 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
                 LazyLoad = viewModel.LazyLoad,
                 Multiple = viewModel.Multiple,
                 Required = viewModel.Required,
-                FallbackData = JsonConvert.SerializeObject(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, viewModel.FallbackData))
+                FallbackData = JConvert.SerializeObject(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, viewModel.FallbackData))
             };
 
             try
@@ -62,7 +72,7 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
 
             context.Builder.WithSettings(settings);
 
-            return Edit(model);
+            return Edit(model, context);
         }
     }
 }

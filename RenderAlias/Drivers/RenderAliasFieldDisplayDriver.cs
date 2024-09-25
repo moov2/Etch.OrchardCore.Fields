@@ -1,10 +1,9 @@
-﻿using Etch.OrchardCore.Fields.RenderAlias.Fields;
+using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.RenderAlias.Fields;
 using Etch.OrchardCore.Fields.RenderAlias.ViewModels;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
-using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.RenderAlias.Drivers
 {
@@ -43,9 +42,9 @@ namespace Etch.OrchardCore.Fields.RenderAlias.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(RenderAliasField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(RenderAliasField field, UpdateFieldEditorContext context)
         {
-            await updater.TryUpdateModelAsync(field, Prefix);
+            await context.Updater.TryUpdateModelAsync(field, Prefix);
 
             return Edit(field, context);
         }

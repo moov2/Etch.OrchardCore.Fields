@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Etch.OrchardCore.Fields.Eventbrite.Models;
 using Etch.OrchardCore.Fields.Eventbrite.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -31,22 +31,18 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
 
         #region Overrides
 
-        public override async Task<IDisplayResult> EditAsync(EventbriteSettings section, BuildEditorContext context)
+        public override IDisplayResult Edit(ISite site, EventbriteSettings section, BuildEditorContext context)
         {
-            var user = _httpContextAccessor.HttpContext?.User;
-
-            if (!await _authorizationService.AuthorizeAsync(user, Permissions.ManageEventbriteAPI))
-            {
-                return null;
-            }
-
             return Initialize<EventbriteSettingsViewModel>("ManageEventBriteSettings_Edit", model =>
             {
                 model.PrivateToken = section.PrivateToken;
-            }).Location("Content:3").OnGroup(Constants.SettingsGroupId);
+            })
+            .Location("Content:3")
+            .OnGroup(Constants.SettingsGroupId)
+            .RenderWhen(() => _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, Permissions.ManageEventbriteAPI));
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(EventbriteSettings section, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ISite site, EventbriteSettings section, UpdateEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -64,7 +60,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
                 section.PrivateToken = model.PrivateToken;
             }
 
-            return await EditAsync(section, context);
+            return Edit(site, section, context);
         }
 
         #endregion Overrides

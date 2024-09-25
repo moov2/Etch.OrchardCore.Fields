@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using OrchardCore.Navigation;
 using System;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Colour
 {
-    public class AdminMenu : INavigationProvider
+    public class AdminMenu : AdminNavigationProvider
     {
         public IStringLocalizer S { get; set; }
 
@@ -14,13 +14,8 @@ namespace Etch.OrchardCore.Fields.Colour
             S = localizer;
         }
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+        protected override ValueTask BuildAsync(NavigationBuilder builder)
         {
-            if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
-            {
-                return Task.CompletedTask;
-            }
-
             builder
                 .Add(S["Configuration"], configuration => configuration
                     .Add(S["Settings"], settings => settings
@@ -31,7 +26,7 @@ namespace Etch.OrchardCore.Fields.Colour
                             .LocalNav()
                         )));
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }

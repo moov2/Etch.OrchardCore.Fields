@@ -1,10 +1,11 @@
-﻿using System;
+using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Etch.OrchardCore.Fields.MultiSelect.Fields;
 using Etch.OrchardCore.Fields.MultiSelect.ViewModels;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 
 namespace Etch.OrchardCore.Fields.MultiSelect.Settings
@@ -15,7 +16,7 @@ namespace Etch.OrchardCore.Fields.MultiSelect.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model, BuildEditorContext context)
         {
             return Initialize<EditMultiSelectFieldSettingsViewModel>("MultiSelectFieldSettings_Edit", viewModel =>
             {
@@ -23,7 +24,7 @@ namespace Etch.OrchardCore.Fields.MultiSelect.Settings
 
                 viewModel.Hint = settings.Hint;
                 viewModel.Options = settings.Options;
-                viewModel.OptionsJson = JsonConvert.SerializeObject(settings.Options ?? Array.Empty<string>());
+                viewModel.OptionsJson = JConvert.SerializeObject(settings.Options ?? Array.Empty<string>());
             })
             .Location("Content");
 
@@ -37,11 +38,11 @@ namespace Etch.OrchardCore.Fields.MultiSelect.Settings
                 context.Builder.WithSettings(new MultiSelectFieldSettings
                 {
                     Hint = viewModel.Hint,
-                    Options = string.IsNullOrWhiteSpace(viewModel.OptionsJson) ? Array.Empty<string>() : JsonConvert.DeserializeObject<string[]>(viewModel.OptionsJson)
+                    Options = string.IsNullOrWhiteSpace(viewModel.OptionsJson) ? Array.Empty<string>() : JConvert.DeserializeObject<string[]>(viewModel.OptionsJson)
                 });
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion

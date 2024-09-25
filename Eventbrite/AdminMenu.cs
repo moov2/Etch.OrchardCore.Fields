@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Etch.OrchardCore.Fields.Eventbrite
 {
     [Feature("Etch.OrchardCore.Fields.Eventbrite")]
-    public class AdminMenu : INavigationProvider
+    public class AdminMenu : AdminNavigationProvider
     {
         public AdminMenu(IStringLocalizer<AdminMenu> localizer)
         {
@@ -16,12 +16,8 @@ namespace Etch.OrchardCore.Fields.Eventbrite
 
         public IStringLocalizer T { get; set; }
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+        protected override ValueTask BuildAsync(NavigationBuilder builder)
         {
-            if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
-            {
-                return Task.CompletedTask;
-            }
 
             builder
                 .Add(T["Configuration"], configuration => configuration
@@ -31,7 +27,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite
                         .LocalNav()
                     ));
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }

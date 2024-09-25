@@ -1,4 +1,4 @@
-﻿using Etch.OrchardCore.Fields.Eventbrite.Fields;
+using Etch.OrchardCore.Fields.Eventbrite.Fields;
 using Etch.OrchardCore.Fields.Eventbrite.Models;
 using Etch.OrchardCore.Fields.Eventbrite.Services;
 using Etch.OrchardCore.Fields.Eventbrite.ViewModels;
@@ -92,11 +92,11 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(EventbriteField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(EventbriteField field, UpdateFieldEditorContext context)
         {
             var model = new EditEventbriteFieldViewModel();
 
-            await updater.TryUpdateModelAsync(model, Prefix, m => m.Value);
+            await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.Value);
 
             if (string.IsNullOrWhiteSpace(model.Value))
             {
@@ -109,7 +109,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
 
             if (string.IsNullOrWhiteSpace(settings.PrivateToken))
             {
-                updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[UnconfiguredErrorMessage]);
+                context.Updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[UnconfiguredErrorMessage]);
                 return await EditAsync(field, context);
             }
 
@@ -119,7 +119,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
 
                 if (eventbriteEvent == null)
                 {
-                    updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[FailedToRetrieveErrorMessage]);
+                    context.Updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[FailedToRetrieveErrorMessage]);
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Drivers
             }
             catch
             {
-                updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[FailedToRetrieveErrorMessage]);
+                context.Updater.ModelState.AddModelError(Prefix, nameof(field.Value), T[FailedToRetrieveErrorMessage]);
             }
 
             return await EditAsync(field, context);

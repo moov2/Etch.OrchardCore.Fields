@@ -1,67 +1,68 @@
-﻿using Newtonsoft.Json;
+
+using System.Text.Json.Serialization;
 
 namespace Etch.OrchardCore.Fields.Eventbrite.Models.Dto
 {
     public class EventbriteVenueDto
     {
-        [JsonProperty(PropertyName = "address")]
+        [JsonPropertyName("address")]
         public Address Address { get; set; }
 
-        [JsonProperty(PropertyName = "resource_uri")]
+        [JsonPropertyName("resource_uri")]
         public string ResourceUri { get; set; }
 
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "age_restriction")]
+        [JsonPropertyName("age_restriction")]
         public object AgeRestriction { get; set; }
 
-        [JsonProperty(PropertyName = "capacity")]
+        [JsonPropertyName("capacity")]
         public object Capacity { get; set; }
 
-        [JsonProperty(PropertyName = "name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty(PropertyName = "latitude")]
+        [JsonPropertyName("latitude")]
         public string Latitude { get; set; }
 
-        [JsonProperty(PropertyName = "longitude")]
+        [JsonPropertyName("longitude")]
         public string Longitude { get; set; }
     }
 
     public class Address
     {
-        [JsonProperty(PropertyName = "address_1")]
+        [JsonPropertyName("address_1")]
         public string Address1 { get; set; }
 
-        [JsonProperty(PropertyName = "address_2")]
+        [JsonPropertyName("address_2")]
         public string Address2 { get; set; }
 
-        [JsonProperty(PropertyName = "city")]
+        [JsonPropertyName("city")]
         public string City { get; set; }
 
-        [JsonProperty(PropertyName = "region")]
+        [JsonPropertyName("region")]
         public string Region { get; set; }
 
-        [JsonProperty(PropertyName = "postal_code")]
+        [JsonPropertyName("postal_code")]
         public string PostalCode { get; set; }
 
-        [JsonProperty(PropertyName = "country")]
+        [JsonPropertyName("country")]
         public string Country { get; set; }
 
-        [JsonProperty(PropertyName = "latitude")]
+        [JsonPropertyName("latitude")]
         public string Latitude { get; set; }
 
-        [JsonProperty(PropertyName = "longitude")]
+        [JsonPropertyName("longitude")]
         public string Longitude { get; set; }
 
-        [JsonProperty(PropertyName = "localized_address_display")]
+        [JsonPropertyName("localized_address_display")]
         public string LocalizedAddressDisplay { get; set; }
 
-        [JsonProperty(PropertyName = "localized_area_display")]
+        [JsonPropertyName("localized_area_display")]
         public string LocalizedAreaDisplay { get; set; }
 
-        [JsonProperty(PropertyName = "localized_multi_line_address_display")]
+        [JsonPropertyName("localized_multi_line_address_display")]
         public string[] LocalizedMultiLineAddressDisplay { get; set; }
     }
 }

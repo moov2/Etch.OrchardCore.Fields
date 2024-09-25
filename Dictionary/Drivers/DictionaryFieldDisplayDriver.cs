@@ -1,16 +1,15 @@
-using Etch.OrchardCore.Fields.Colour.Settings;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Etch.OrchardCore.Fields.Dictionary.Fields;
 using Etch.OrchardCore.Fields.Dictionary.Models;
 using Etch.OrchardCore.Fields.Dictionary.Settings;
 using Etch.OrchardCore.Fields.Dictionary.ViewModels;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Dictionary.Drivers
 {
@@ -61,31 +60,31 @@ namespace Etch.OrchardCore.Fields.Dictionary.Drivers
                 model.Part = context.ContentPart;
                 model.PartFieldDefinition = context.PartFieldDefinition;
 
-                model.Data = JsonConvert.SerializeObject(field.Data ?? GetDefaults(context));
+                model.Data = JConvert.SerializeObject(field.Data ?? GetDefaults(context));
 
                 model.MaxEntries = settings?.MaxEntries;
                 model.MinEntries = settings?.MinEntries;
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(DictionaryField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(DictionaryField field, UpdateFieldEditorContext context)
         {
             var model = new EditDictionaryFieldViewModel();
 
-            await updater.TryUpdateModelAsync(model, Prefix, m => m.Data);
+            await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.Data);
 
             var settings = GetSettings(context);
 
-            field.Data = JsonConvert.DeserializeObject<List<DictionaryItem>>(model.Data);
+            field.Data = JConvert.DeserializeObject<List<DictionaryItem>>(model.Data);
 
             if (settings?.MinEntries > 0 && (field.Data == null || field.Data.Count < settings.MinEntries))
             {
-                updater.ModelState.AddModelError($"{Prefix}.{nameof(model.Data)}", T["You must specify at least {0} items.", settings.MinEntries]);
+                context.Updater.ModelState.AddModelError($"{Prefix}.{nameof(model.Data)}", T["You must specify at least {0} items.", settings.MinEntries]);
             }
 
             if (settings?.MaxEntries > 0 && field.Data?.Count > settings.MaxEntries)
             {
-                updater.ModelState.AddModelError($"{Prefix}.{nameof(model.Data)}", T["You can specify at most {0} items.", settings.MaxEntries]);
+                context.Updater.ModelState.AddModelError($"{Prefix}.{nameof(model.Data)}", T["You can specify at most {0} items.", settings.MaxEntries]);
             }
 
             return Edit(field, context);
@@ -108,7 +107,7 @@ namespace Etch.OrchardCore.Fields.Dictionary.Drivers
 
             if (settingsValue != null)
             {
-                return JsonConvert.DeserializeObject<IList<DictionaryItem>>(settingsValue);
+                return JConvert.DeserializeObject<IList<DictionaryItem>>(settingsValue);
             }
 
             return new List<DictionaryItem>();
