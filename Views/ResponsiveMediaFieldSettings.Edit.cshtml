@@ -1,3 +1,4 @@
+@using System.Text.Json
 @model Etch.OrchardCore.Fields.ResponsiveMedia.Settings.ResponsiveMediaFieldSettings
 
 @if (Model.IsConfigured)
@@ -12,7 +13,7 @@
 
 <script at="Foot">
 initializeMediaApplication(false, '@Url.Action("MediaApplication", "Admin", new { area = "OrchardCore.Media" })');
-initializeResponsiveMediaEditor(document.getElementById('@Html.IdFor(m => m)'), document.getElementById('@Html.IdFor(m => m)-ModalBody'), @(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GetBreakpoints())), @(Model.Multiple ? "true" : "false"));
+initializeResponsiveMediaEditor(document.getElementById('@Html.IdFor(m => m)'), document.getElementById('@Html.IdFor(m => m)-ModalBody'), @(JConvert.SerializeObject(Model.GetBreakpoints())), @(Model.Multiple ? "true" : "false"));
 </script>}
 
 <div class="mb-3">

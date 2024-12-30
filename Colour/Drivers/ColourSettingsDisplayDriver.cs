@@ -1,12 +1,12 @@
-﻿using Etch.OrchardCore.Fields.Colour.Settings;
+using Etch.OrchardCore.Fields.Colour.Settings;
 using Etch.OrchardCore.Fields.Colour.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using OrchardCore.DisplayManagement.Entities;
 using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Settings;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Colour.Drivers
@@ -32,22 +32,18 @@ namespace Etch.OrchardCore.Fields.Colour.Drivers
 
         #region Overrides
 
-        public override async Task<IDisplayResult> EditAsync(ColourSettings section, BuildEditorContext context)
+        public override IDisplayResult Edit(ISite site, ColourSettings section, BuildEditorContext context)
         {
-            var user = _httpContextAccessor.HttpContext?.User;
-
-            if (!await _authorizationService.AuthorizeAsync(user, Permissions.ManageColourSettings))
-            {
-                return null;
-            }
-
             return Initialize<ColourSettingsViewModel>("ColourSettings_Edit", model =>
             {
-                model.Colours = JsonConvert.SerializeObject(section.Colours);
-            }).Location("Content:3").OnGroup(Constants.GroupId);
+                model.Colours = JConvert.SerializeObject(section.Colours);
+            })
+            .Location("Content:3")
+            .OnGroup(Constants.GroupId)
+            .RenderWhen(() => _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, Permissions.ManageColourSettings));
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ColourSettings section, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ISite site, ColourSettings section, UpdateEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -62,11 +58,11 @@ namespace Etch.OrchardCore.Fields.Colour.Drivers
 
                 if (await context.Updater.TryUpdateModelAsync(model, Prefix))
                 {
-                    section.Colours = JsonConvert.DeserializeObject<ColourItem[]>(model.Colours);
+                    section.Colours = JConvert.DeserializeObject<ColourItem[]>(model.Colours);
                 }
             }
 
-            return await EditAsync(section, context);
+            return Edit(site, section, context);
         }
 
         #endregion

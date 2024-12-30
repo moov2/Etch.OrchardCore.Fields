@@ -1,13 +1,15 @@
-﻿using Etch.OrchardCore.Fields.Dictionary.Fields;
-using Etch.OrchardCore.Fields.Dictionary.Models;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using OrchardCore.ContentManagement.Metadata.Models;
-using OrchardCore.ContentTypes.Editors;
-using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.Dictionary.Fields;
+using Etch.OrchardCore.Fields.Dictionary.Models;
+using Microsoft.Extensions.Logging;
+using OrchardCore.ContentFields.Settings;
+using OrchardCore.ContentManagement.Metadata.Models;
+using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
+using OrchardCore.DisplayManagement.Views;
 
 namespace Etch.OrchardCore.Fields.Dictionary.Settings
 {
@@ -32,11 +34,15 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition partFieldDefinition, BuildEditorContext context)
         {
-            return Initialize<DictionaryFieldSettings>("DictionaryFieldSettings_Edit", viewModel =>
+            return Initialize<DictionaryFieldSettings>("DictionaryFieldSettings_Edit", model =>
                 {
-                    model.PopulateSettings(viewModel);
+                    var settings = partFieldDefinition.GetSettings<DictionaryFieldSettings>();
+                    model.DefaultData = settings.DefaultData;
+                    model.Hint = settings.Hint;
+                    model.MaxEntries = settings.MaxEntries;
+                    model.MinEntries = settings.MinEntries;
                 })
                 .Location("Content");
         }
@@ -51,7 +57,7 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
                 // with incorrect casing
                 try
                 {
-                    settings.DefaultData = JsonConvert.SerializeObject(JsonConvert.DeserializeObject<IList<DictionaryItem>>(settings.DefaultData));
+                    settings.DefaultData = JConvert.SerializeObject(JConvert.DeserializeObject<IList<DictionaryItem>>(settings.DefaultData));
                 }
                 catch (Exception e)
                 {
@@ -61,7 +67,7 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
                 context.Builder.WithSettings(settings);
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion Edit

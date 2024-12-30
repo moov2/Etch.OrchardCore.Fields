@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Localization;
 using Etch.OrchardCore.Fields.Values.Fields;
 using Etch.OrchardCore.Fields.Values.ViewModels;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Etch.OrchardCore.Fields.Values.Drivers
 {
@@ -57,17 +57,17 @@ namespace Etch.OrchardCore.Fields.Values.Drivers
                 model.Part = context.ContentPart;
                 model.PartFieldDefinition = context.PartFieldDefinition;
 
-                model.Data = JsonConvert.SerializeObject(field.Data);
+                model.Data = JConvert.SerializeObject(field.Data);
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ValuesField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ValuesField field, UpdateFieldEditorContext context)
         {
             var model = new EditValuesFieldViewModel();
 
-            await updater.TryUpdateModelAsync(model, Prefix, m => m.Data);
+            await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.Data);
 
-            field.Data = JsonConvert.DeserializeObject<List<string>>(model.Data);
+            field.Data = JConvert.DeserializeObject<List<string>>(model.Data);
 
             return Edit(field, context);
         }

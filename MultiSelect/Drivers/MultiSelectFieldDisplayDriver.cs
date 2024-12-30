@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Etch.OrchardCore.Fields.MultiSelect.Fields;
 using Etch.OrchardCore.Fields.MultiSelect.ViewModels;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 
 namespace Etch.OrchardCore.Fields.MultiSelect.Drivers
@@ -59,11 +58,11 @@ namespace Etch.OrchardCore.Fields.MultiSelect.Drivers
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(MultiSelectField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(MultiSelectField field, UpdateFieldEditorContext context)
         {
             var model = new EditMultiSelectFieldViewModel();
 
-            if (await updater.TryUpdateModelAsync(model, Prefix, m => m.SelectedValues)) {
+            if (await context.Updater.TryUpdateModelAsync(model, Prefix, m => m.SelectedValues)) {
                 field.SelectedValues = model.SelectedValues;
             }
 

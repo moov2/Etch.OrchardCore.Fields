@@ -1,9 +1,10 @@
-﻿using Etch.OrchardCore.Fields.Code.Fields;
+using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.Code.Fields;
 using Etch.OrchardCore.Fields.Code.ViewModels;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
-using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Code.Settings
 {
@@ -13,7 +14,7 @@ namespace Etch.OrchardCore.Fields.Code.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model, BuildEditorContext context)
         {
             return Initialize<EditCodeFieldSettingsViewModel>("CodeFieldSettings_Edit", viewModel =>
             {
@@ -39,7 +40,7 @@ namespace Etch.OrchardCore.Fields.Code.Settings
                 });
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion

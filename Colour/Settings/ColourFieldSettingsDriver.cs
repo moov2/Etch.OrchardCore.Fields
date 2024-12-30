@@ -1,9 +1,10 @@
-﻿using Etch.OrchardCore.Fields.Colour.Fields;
+using Etch.OrchardCore.Fields.Colour.Fields;
 using Etch.OrchardCore.Fields.Colour.ViewModels;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Colour.Settings
@@ -14,7 +15,7 @@ namespace Etch.OrchardCore.Fields.Colour.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model, BuildEditorContext context)
         {
             return Initialize<EditColourFieldSettingsViewModel>("ColourFieldSettings_Edit", viewModel =>
             {
@@ -22,7 +23,7 @@ namespace Etch.OrchardCore.Fields.Colour.Settings
 
                 viewModel.AllowCustom = settings.AllowCustom;
                 viewModel.AllowTransparent = settings.AllowTransparent;
-                viewModel.Colours = JsonConvert.SerializeObject(settings.Colours);
+                viewModel.Colours = JConvert.SerializeObject(settings.Colours);
                 viewModel.DefaultValue = settings.DefaultValue;
                 viewModel.Hint = settings.Hint;
                 viewModel.UseGlobalColours = settings.UseGlobalColours;
@@ -40,14 +41,14 @@ namespace Etch.OrchardCore.Fields.Colour.Settings
                 {
                     AllowCustom = viewModel.AllowCustom,
                     AllowTransparent = viewModel.AllowTransparent,
-                    Colours = JsonConvert.DeserializeObject<ColourItem[]>(viewModel.Colours),
+                    Colours = JConvert.DeserializeObject<ColourItem[]>(viewModel.Colours),
                     DefaultValue = viewModel.DefaultValue,
                     Hint = viewModel.Hint,
                     UseGlobalColours = viewModel.UseGlobalColours
                 });
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion

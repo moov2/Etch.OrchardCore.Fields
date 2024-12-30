@@ -1,11 +1,11 @@
-﻿using Etch.OrchardCore.Fields.MultiSelect.Fields;
+using Etch.OrchardCore.Fields.MultiSelect.Fields;
 using Etch.OrchardCore.Fields.MultiSelect.Settings;
 using Etch.OrchardCore.Fields.MultiSelect.ViewModels;
 using Etch.OrchardCore.Fields.Query.Fields;
 using Etch.OrchardCore.Fields.Query.ViewModels;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace Etch.OrchardCore.Fields.Query.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model, BuildEditorContext context)
         {
             return Initialize<EditQueryFieldSettingsViewModel>("QueryFieldSettings_Edit", viewModel =>
             {
@@ -41,7 +41,7 @@ namespace Etch.OrchardCore.Fields.Query.Settings
                 });
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion

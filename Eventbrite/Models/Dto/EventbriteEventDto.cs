@@ -1,245 +1,245 @@
-using Newtonsoft.Json;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Etch.OrchardCore.Fields.Eventbrite.Models.Dto
 {
     public class EventbriteEventDto
     {
-        [JsonProperty(PropertyName = "name")]
+        [JsonPropertyName("name")]
         public Name Name { get; set; }
 
-        [JsonProperty(PropertyName = "description")]
+        [JsonPropertyName("description")]
         public Description Description { get; set; }
 
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty(PropertyName = "vanity_url")]
+        [JsonPropertyName("vanity_url")]
         public string VanityUrl { get; set; }
 
-        [JsonProperty(PropertyName = "start")]
+        [JsonPropertyName("start")]
         public Start Start { get; set; }
 
-        [JsonProperty(PropertyName = "end")]
+        [JsonPropertyName("end")]
         public End End { get; set; }
 
-        [JsonProperty(PropertyName = "organization_id")]
+        [JsonPropertyName("organization_id")]
         public string OrganizationId { get; set; }
 
-        [JsonProperty(PropertyName = "created")]
+        [JsonPropertyName("created")]
         public DateTime Created { get; set; }
 
-        [JsonProperty(PropertyName = "changed")]
+        [JsonPropertyName("changed")]
         public DateTime Changed { get; set; }
 
-        [JsonProperty(PropertyName = "published")]
+        [JsonPropertyName("published")]
         public DateTime Published { get; set; }
 
-        [JsonProperty(PropertyName = "capacity")]
+        [JsonPropertyName("capacity")]
         public int? Capacity { get; set; }
 
-        [JsonProperty(PropertyName = "capacity_is_custom")]
+        [JsonPropertyName("capacity_is_custom")]
         public bool? CapacityIsCustom { get; set; }
 
-        [JsonProperty(PropertyName = "status")]
+        [JsonPropertyName("status")]
         public string Status { get; set; }
 
-        [JsonProperty(PropertyName = "currency")]
+        [JsonPropertyName("currency")]
         public string Currency { get; set; }
 
-        [JsonProperty(PropertyName = "listed")]
+        [JsonPropertyName("listed")]
         public bool Listed { get; set; }
 
-        [JsonProperty(PropertyName = "shareable")]
+        [JsonPropertyName("shareable")]
         public bool Shareable { get; set; }
 
-        [JsonProperty(PropertyName = "invite_only")]
+        [JsonPropertyName("invite_only")]
         public bool InviteOnly { get; set; }
 
-        [JsonProperty(PropertyName = "online_event")]
+        [JsonPropertyName("online_event")]
         public bool OnlineEvent { get; set; }
 
-        [JsonProperty(PropertyName = "show_remaining")]
+        [JsonPropertyName("show_remaining")]
         public bool ShowRemaining { get; set; }
 
-        [JsonProperty(PropertyName = "tx_time_limit")]
+        [JsonPropertyName("tx_time_limit")]
         public int TxTimeLimit { get; set; }
 
-        [JsonProperty(PropertyName = "hide_start_date")]
+        [JsonPropertyName("hide_start_date")]
         public bool HideStartDate { get; set; }
 
-        [JsonProperty(PropertyName = "hide_end_date")]
+        [JsonPropertyName("hide_end_date")]
         public bool HideEndDate { get; set; }
 
-        [JsonProperty(PropertyName = "locale")]
+        [JsonPropertyName("locale")]
         public string Locale { get; set; }
 
-        [JsonProperty(PropertyName = "is_locked")]
+        [JsonPropertyName("is_locked")]
         public bool IsLocked { get; set; }
 
-        [JsonProperty(PropertyName = "privacy_setting")]
+        [JsonPropertyName("privacy_setting")]
         public string PrivacySetting { get; set; }
 
-        [JsonProperty(PropertyName = "is_series")]
+        [JsonPropertyName("is_series")]
         public bool IsSeries { get; set; }
 
-        [JsonProperty(PropertyName = "is_series_parent")]
+        [JsonPropertyName("is_series_parent")]
         public bool IsSeriesParent { get; set; }
 
-        [JsonProperty(PropertyName = "inventory_type")]
+        [JsonPropertyName("inventory_type")]
         public string InventoryType { get; set; }
 
-        [JsonProperty(PropertyName = "is_reserved_seating")]
+        [JsonPropertyName("is_reserved_seating")]
         public bool IsReservedSeating { get; set; }
 
-        [JsonProperty(PropertyName = "show_pick_a_seat")]
+        [JsonPropertyName("show_pick_a_seat")]
         public bool ShowPickASeat { get; set; }
 
-        [JsonProperty(PropertyName = "show_seatmap_thumbnail")]
+        [JsonPropertyName("show_seatmap_thumbnail")]
         public bool ShowSeatmapThumbnail { get; set; }
 
-        [JsonProperty(PropertyName = "show_colors_in_seatmap_thumbnail")]
+        [JsonPropertyName("show_colors_in_seatmap_thumbnail")]
         public bool ShowColorsInSeatmapThumbnail { get; set; }
 
-        [JsonProperty(PropertyName = "source")]
+        [JsonPropertyName("source")]
         public string Source { get; set; }
 
-        [JsonProperty(PropertyName = "is_free")]
+        [JsonPropertyName("is_free")]
         public bool IsFree { get; set; }
 
-        [JsonProperty(PropertyName = "version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        [JsonProperty(PropertyName = "summary")]
+        [JsonPropertyName("summary")]
         public string Summary { get; set; }
 
-        [JsonProperty(PropertyName = "logo_id")]
+        [JsonPropertyName("logo_id")]
         public string LogoId { get; set; }
 
-        [JsonProperty(PropertyName = "organizer_id")]
+        [JsonPropertyName("organizer_id")]
         public string OrganizerId { get; set; }
 
-        [JsonProperty(PropertyName = "venue_id")]
+        [JsonPropertyName("venue_id")]
         public string VenueId { get; set; }
 
-        [JsonProperty(PropertyName = "category_id")]
+        [JsonPropertyName("category_id")]
         public string CategoryId { get; set; }
 
-        [JsonProperty(PropertyName = "subcategory_id")]
+        [JsonPropertyName("subcategory_id")]
         public object SubcategoryId { get; set; }
 
-        [JsonProperty(PropertyName = "format_id")]
+        [JsonPropertyName("format_id")]
         public string FormatId { get; set; }
 
-        [JsonProperty(PropertyName = "resource_uri")]
+        [JsonPropertyName("resource_uri")]
         public string ResourceUri { get; set; }
 
-        [JsonProperty(PropertyName = "is_externally_ticketed")]
+        [JsonPropertyName("is_externally_ticketed")]
         public bool IsExternallyTicketed { get; set; }
 
-        [JsonProperty(PropertyName = "logo")]
+        [JsonPropertyName("logo")]
         public Logo Logo { get; set; }
     }
 
     public class Name
     {
-        [JsonProperty(PropertyName = "text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "html")]
+        [JsonPropertyName("html")]
         public string Html { get; set; }
     }
 
     public class Description
     {
-        [JsonProperty(PropertyName = "text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "html")]
+        [JsonPropertyName("html")]
         public string Html { get; set; }
     }
 
     public class Start
     {
-        [JsonProperty(PropertyName = "timezone")]
+        [JsonPropertyName("timezone")]
         public string Timezone { get; set; }
 
-        [JsonProperty(PropertyName = "local")]
+        [JsonPropertyName("local")]
         public DateTime Local { get; set; }
 
-        [JsonProperty(PropertyName = "utc")]
+        [JsonPropertyName("utc")]
         public DateTime Utc { get; set; }
     }
 
     public class End
     {
-        [JsonProperty(PropertyName = "timezone")]
+        [JsonPropertyName("timezone")]
         public string Timezone { get; set; }
 
-        [JsonProperty(PropertyName = "local")]
+        [JsonPropertyName("local")]
         public DateTime Local { get; set; }
 
-        [JsonProperty(PropertyName = "utc")]
+        [JsonPropertyName("utc")]
         public DateTime Utc { get; set; }
     }
 
     public class Logo
     {
-        [JsonProperty(PropertyName = "crop_mask")]
+        [JsonPropertyName("crop_mask")]
         public CropMask CropMask { get; set; }
 
-        [JsonProperty(PropertyName = "original")]
+        [JsonPropertyName("original")]
         public Original Original { get; set; }
 
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty(PropertyName = "url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty(PropertyName = "aspect_ratio")]
+        [JsonPropertyName("aspect_ratio")]
         public string AspectRatio { get; set; }
 
-        [JsonProperty(PropertyName = "edge_color")]
+        [JsonPropertyName("edge_color")]
         public object EdgeColor { get; set; }
 
-        [JsonProperty(PropertyName = "edge_color_set")]
+        [JsonPropertyName("edge_color_set")]
         public bool EdgeColorSet { get; set; }
     }
 
     public class CropMask
     {
-        [JsonProperty(PropertyName = "top_left")]
+        [JsonPropertyName("top_left")]
         public TopLeft TopLeft { get; set; }
 
-        [JsonProperty(PropertyName = "width")]
+        [JsonPropertyName("width")]
         public int Width { get; set; }
 
-        [JsonProperty(PropertyName = "height")]
+        [JsonPropertyName("height")]
         public int Height { get; set; }
     }
 
     public class TopLeft
     {
-        [JsonProperty(PropertyName = "x")]
+        [JsonPropertyName("x")]
         public int X { get; set; }
 
-        [JsonProperty(PropertyName = "y")]
+        [JsonPropertyName("y")]
         public int Y { get; set; }
     }
 
     public class Original
     {
-        [JsonProperty(PropertyName = "url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        [JsonProperty(PropertyName = "width")]
+        [JsonPropertyName("width")]
         public int Width { get; set; }
 
-        [JsonProperty(PropertyName = "height")]
+        [JsonPropertyName("height")]
         public int Height { get; set; }
     }
 }

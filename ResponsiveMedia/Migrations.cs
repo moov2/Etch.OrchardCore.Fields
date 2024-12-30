@@ -1,4 +1,5 @@
-﻿using Etch.OrchardCore.Fields.ResponsiveMedia.Fields;
+using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.ResponsiveMedia.Fields;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Data.Migration;
@@ -24,9 +25,9 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> CreateAsync()
         {
-            _contentDefinitionManager.MigrateFieldSettings<ResponsiveMediaField, ResponsiveMediaFieldSettings>();
+            await _contentDefinitionManager.MigrateFieldSettingsAsync<ResponsiveMediaField, ResponsiveMediaFieldSettings>();
 
             return 1;
         }

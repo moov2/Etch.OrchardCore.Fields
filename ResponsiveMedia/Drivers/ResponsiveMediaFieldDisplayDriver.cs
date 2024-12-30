@@ -1,19 +1,18 @@
-﻿using Etch.OrchardCore.Fields.ResponsiveMedia.Fields;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Etch.OrchardCore.Fields.ResponsiveMedia.Fields;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Models;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Settings;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Utils;
 using Etch.OrchardCore.Fields.ResponsiveMedia.ViewModels;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Media;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.ResponsiveMedia.Drivers
 {
@@ -73,19 +72,19 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Drivers
                 model.Field = field;
                 model.Part = context.ContentPart;
                 model.PartFieldDefinition = context.PartFieldDefinition;
-                model.Data = JsonConvert.SerializeObject(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, field.Data));
+                model.Data = JConvert.SerializeObject(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, field.Data));
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(ResponsiveMediaField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ResponsiveMediaField field, UpdateFieldEditorContext context)
         {
-            if (await updater.TryUpdateModelAsync(field, Prefix, f => f.Data))
+            if (await context.Updater.TryUpdateModelAsync(field, Prefix, f => f.Data))
             {
                 var settings = context.PartFieldDefinition.GetSettings<ResponsiveMediaFieldSettings>();
 
-                if (settings.Required && !JsonConvert.DeserializeObject<IList<ResponsiveMediaItem>>(field.Data).Any())
+                if (settings.Required && !JConvert.DeserializeObject<IList<ResponsiveMediaItem>>(field.Data).Any())
                 {
-                    updater.ModelState.AddModelError(Prefix, S["{0}: Media is required.", context.PartFieldDefinition.DisplayName()]);
+                    context.Updater.ModelState.AddModelError(Prefix, S["{0}: Media is required.", context.PartFieldDefinition.DisplayName()]);
                 }
 
             }

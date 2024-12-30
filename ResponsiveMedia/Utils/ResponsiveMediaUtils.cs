@@ -1,8 +1,8 @@
-﻿using Etch.OrchardCore.Fields.ResponsiveMedia.Models;
-using Newtonsoft.Json;
+using Etch.OrchardCore.Fields.ResponsiveMedia.Models;
 using OrchardCore.Media;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace Etch.OrchardCore.Fields.ResponsiveMedia.Utils
 {
@@ -19,7 +19,7 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Utils
 
             if (!string.IsNullOrWhiteSpace(data))
             {
-                media = data.StartsWith("[") ? JsonConvert.DeserializeObject<List<ResponsiveMediaItem>>(data) : new List<ResponsiveMediaItem> { JsonConvert.DeserializeObject<ResponsiveMediaItem>(data) };
+                media = data.StartsWith("[") ? JConvert.DeserializeObject<List<ResponsiveMediaItem>>(data) : new List<ResponsiveMediaItem> { JConvert.DeserializeObject<ResponsiveMediaItem>(data) };
             }
 
             foreach (var mediaItem in media)

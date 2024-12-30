@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Etch.OrchardCore.Fields.Eventbrite.Models.Dto
 {
     public class EventbriteDescriptionDto
     {
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
     }
 }
